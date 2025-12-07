@@ -14,14 +14,13 @@ const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 // middleware
-if(process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
   app.use(
-  cors({
-    origin: "http://localhost:5173",
-  })
-);
+    cors({
+      origin: "http://localhost:5173",
+    })
+  );
 }
-
 
 app.use(express.json()); //this middleware parse the json bodies: req.body
 app.use(ratelimiter);
@@ -34,12 +33,12 @@ app.use(ratelimiter);
 
 app.use("/api/notes", notesRoutes);
 
-if(process.env.NODE_ENV === "production"){
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-});
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
 }
 
 // first connect to db and then start the app
